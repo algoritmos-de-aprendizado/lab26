@@ -1,2 +1,2 @@
 # lab
-Laboratório de implementação de algoritmos de busca e aprendizado.
+Laboratório de algoritmos de busca e aprendizado.
