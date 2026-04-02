@@ -1,6 +1,10 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 
+def f(no):
+    return 0
+
+f = lambda no: 0
 
 class Grafo:
     def __init__(self, adjacencia, heuristica=None):
