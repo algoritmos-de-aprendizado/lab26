@@ -22,18 +22,19 @@ y_pred = knn.predict(X_test)
 acc_original = accuracy_score(y_test, y_pred)
 
 # KNN com normalização (MinMax)
-scaler_minmax =
-X_train_minmax =
-X_test_minmax =
+scaler_minmax = MinMaxScaler()
+X_train_minmax = scaler_minmax.fit_transform(X_train)
+X_test_minmax = scaler_minmax.transform(X_test)
 
 knn.fit(X_train_minmax, y_train)
 y_pred_minmax = knn.predict(X_test_minmax)
 acc_minmax = accuracy_score(y_test, y_pred_minmax)
 
 # KNN com padronização (Z-score)
-scaler_std =
-X_train_std =
-X_test_std =
+scaler_std = StandardScaler()
+scaler_std.fit(X_train)
+X_train_std = scaler_std.transform(X_train)
+X_test_std = scaler_std.transform(X_test)
 
 knn.fit(X_train_std, y_train)
 y_pred_std = knn.predict(X_test_std)
