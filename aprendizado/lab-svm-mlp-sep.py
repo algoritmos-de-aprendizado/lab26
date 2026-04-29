@@ -52,7 +52,8 @@ def plot_fronteira(ax, modelo, X, y, titulo, scaler=None):
                edgecolors="k", s=50, linewidths=0.6)
     acc = accuracy_score(y, modelo.predict(scaler.transform(X) if scaler else X))
     ax.set_title(f"{titulo}\nAcurácia: {acc:.2%}", fontsize=10, fontweight="bold")
-    ax.set_xticks([]); ax.set_yticks([])
+    ax.set_xticks([]);
+    ax.set_yticks([])
 
 # ═══════════════════════════════════════════════════════════════
 # SEÇÃO 1 — PERCEPTRON em dados LINEARMENTE SEPARÁVEIS
@@ -86,9 +87,22 @@ print("  SEÇÃO 2 — Perceptron no problema XOR (não-linear)")
 print("=" * 62)
 
 # XOR clássico com ruído
-X_xor = np.array([[0,0],[0,1],[1,0],[1,1],
-                   [0.1,0.1],[0.9,0.9],[0.1,0.9],[0.9,0.1]])
-y_xor = np.array([0, 1, 1, 0,  0, 0, 1, 1])
+X_xor = np.array([[0, 0],
+                  [0, 1],
+                  [1, 0],
+                  [1, 1],
+                  [0.1, 0.1],
+                  [0.9, 0.9],
+                  [0.1, 0.9],
+                  [0.9, 0.1]])
+y_xor = np.array([0,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1])
 
 perc_xor = Perceptron(max_iter=1000, random_state=SEED)
 perc_xor.fit(X_xor, y_xor)
@@ -137,20 +151,20 @@ print(f"\nMLP — Circles (2 camadas ocultas: 32→16 neurônios, tanh)")
 print(f"  Acurácia : {accuracy_score(y_circ, mlp_circ.predict(X_circ_s)):.2%}")
 
 # ═══════════════════════════════════════════════════════════════
-# SEÇÃO 4 — SVM: kernel linear vs. RBF
+# SEÇÃO 4 — SVM
 # ═══════════════════════════════════════════════════════════════
 print()
 print("=" * 62)
 print("  SEÇÃO 4 — SVM (Support Vector Machine)")
 print("=" * 62)
 
-svm_lin   = SVC(kernel="linear", C=1.0, random_state=SEED)
-svm_rbf   = SVC(kernel="rbf",    C=1.0, gamma="scale", random_state=SEED)
-svm_poly  = SVC(kernel="poly",   degree=3, C=1.0, random_state=SEED)
+svm_lin = SVC(kernel="linear", C=1.0, random_state=SEED)
+svm_rbf = SVC(kernel="rbf", C=1.0, gamma="scale", random_state=SEED)
+svm_poly = SVC(kernel="poly", degree=3, C=1.0, random_state=SEED)
 
 for nome, modelo in [("SVM Linear", svm_lin),
-                     ("SVM RBF",    svm_rbf),
-                     ("SVM Poly",   svm_poly)]:
+                     ("SVM RBF", svm_rbf),
+                     ("SVM Poly", svm_poly)]:
     modelo.fit(X_moon_s, y_moon)
     acc = accuracy_score(y_moon, modelo.predict(X_moon_s))
     svs = modelo.n_support_.sum()
@@ -167,10 +181,10 @@ print("  SEÇÃO 5 — Relatório comparativo (Moons)")
 print("=" * 62)
 
 modelos_comp = {
-    "Perceptron"    : Perceptron(max_iter=1000, random_state=SEED),
-    "MLP (16-8)"    : MLPClassifier(hidden_layer_sizes=(16, 8), max_iter=2000, random_state=SEED),
-    "SVM Linear"    : SVC(kernel="linear", C=1),
-    "SVM RBF"       : SVC(kernel="rbf", C=1, gamma="scale"),
+    "Perceptron": Perceptron(max_iter=1000, random_state=SEED),
+    "MLP (16-8)": MLPClassifier(hidden_layer_sizes=(16, 8), max_iter=2000, random_state=SEED),
+    "SVM Linear": SVC(kernel="linear", C=1),
+    "SVM RBF": SVC(kernel="rbf", C=1, gamma="scale"),
 }
 
 for nome, modelo in modelos_comp.items():
@@ -178,7 +192,7 @@ for nome, modelo in modelos_comp.items():
     pred = modelo.predict(X_moon_s)
     print(f"\n{nome}")
     print(classification_report(y_moon, pred, target_names=["Classe 0", "Classe 1"],
-                                 zero_division=0))
+                                zero_division=0))
 
 # ═══════════════════════════════════════════════════════════════
 # VISUALIZAÇÕES — Janelas separadas por assunto
@@ -236,12 +250,14 @@ ax9, ax10 = axes_perdas
 
 ax9.plot(mlp_moon.loss_curve_, color="#2D6A9F", lw=1.8)
 ax9.set_title("Curva de Perda — MLP 16→8 relu (Moons)")
-ax9.set_xlabel("Época"); ax9.set_ylabel("Log-Loss")
+ax9.set_xlabel("Época");
+ax9.set_ylabel("Log-Loss")
 ax9.grid(alpha=0.3)
 
 ax10.plot(mlp_circ.loss_curve_, color="#E84545", lw=1.8)
 ax10.set_title("Curva de Perda — MLP 32→16 tanh (Circles)")
-ax10.set_xlabel("Época"); ax10.set_ylabel("Log-Loss")
+ax10.set_xlabel("Época");
+ax10.set_ylabel("Log-Loss")
 ax10.grid(alpha=0.3)
 
 fig_perdas.tight_layout(rect=(0, 0, 1, 0.92))
